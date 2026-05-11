@@ -1,12 +1,12 @@
 {
-  "generated_at": "2026-05-11T12:38:46.775252Z",
+  "generated_at": "2026-05-11T13:50:55.267836Z",
   "sites": [
     {
       "site_id": "official_ai",
       "site_name": "Official AI Updates",
       "ok": true,
-      "item_count": 189,
-      "duration_ms": 4704,
+      "item_count": 190,
+      "duration_ms": 3173,
       "error": null
     },
     {
@@ -14,7 +14,7 @@
       "site_name": "AI Breakfast",
       "ok": true,
       "item_count": 9,
-      "duration_ms": 1100,
+      "duration_ms": 1145,
       "error": null
     },
     {
@@ -22,7 +22,7 @@
       "site_name": "Follow Builders",
       "ok": true,
       "item_count": 25,
-      "duration_ms": 333,
+      "duration_ms": 24,
       "error": null
     },
     {
@@ -30,7 +30,7 @@
       "site_name": "TechURLs",
       "ok": true,
       "item_count": 405,
-      "duration_ms": 337,
+      "duration_ms": 515,
       "error": null
     },
     {
@@ -38,15 +38,15 @@
       "site_name": "Buzzing",
       "ok": true,
       "item_count": 744,
-      "duration_ms": 405,
+      "duration_ms": 476,
       "error": null
     },
     {
       "site_id": "iris",
       "site_name": "Info Flow",
       "ok": true,
-      "item_count": 493,
-      "duration_ms": 13487,
+      "item_count": 510,
+      "duration_ms": 15149,
       "error": null
     },
     {
@@ -54,15 +54,15 @@
       "site_name": "BestBlogs",
       "ok": true,
       "item_count": 1,
-      "duration_ms": 1592,
+      "duration_ms": 1137,
       "error": null
     },
     {
       "site_id": "tophub",
       "site_name": "TopHub",
       "ok": true,
-      "item_count": 3038,
-      "duration_ms": 1516,
+      "item_count": 3039,
+      "duration_ms": 1741,
       "error": null
     },
     {
@@ -70,7 +70,7 @@
       "site_name": "Zeli",
       "ok": true,
       "item_count": 53,
-      "duration_ms": 470,
+      "duration_ms": 542,
       "error": null
     },
     {
@@ -78,7 +78,7 @@
       "site_name": "AI HubToday",
       "ok": true,
       "item_count": 10,
-      "duration_ms": 512,
+      "duration_ms": 312,
       "error": null
     },
     {
@@ -86,7 +86,7 @@
       "site_name": "AIbase",
       "ok": true,
       "item_count": 20,
-      "duration_ms": 28921,
+      "duration_ms": 8292,
       "error": null
     },
     {
@@ -94,7 +94,7 @@
       "site_name": "AI HOT",
       "ok": true,
       "item_count": 50,
-      "duration_ms": 1611,
+      "duration_ms": 1819,
       "error": null
     },
     {
@@ -102,21 +102,21 @@
       "site_name": "NewsNow",
       "ok": true,
       "item_count": 143,
-      "duration_ms": 745,
+      "duration_ms": 420,
       "error": null
     },
     {
       "site_id": "opmlrss",
       "site_name": "OPML RSS",
       "ok": true,
-      "partial_failures": 0,
-      "item_count": 2066,
-      "duration_ms": 5913,
-      "error": null,
-      "feed_count": 10,
-      "effective_feed_count": 10,
-      "ok_feed_count": 10,
-      "failed_feed_count": 0,
+      "partial_failures": 3,
+      "item_count": 2127,
+      "duration_ms": 16147,
+      "error": "3 feeds failed",
+      "feed_count": 19,
+      "effective_feed_count": 19,
+      "ok_feed_count": 16,
+      "failed_feed_count": 3,
       "skipped_feed_count": 0,
       "replaced_feed_count": 0
     }
@@ -124,20 +124,54 @@
   "successful_sites": 14,
   "failed_sites": [],
   "zero_item_sites": [],
-  "fetched_raw_items": 7246,
-  "items_before_topic_filter": 6611,
-  "items_in_24h": 632,
+  "fetched_raw_items": 7326,
+  "items_before_topic_filter": 6762,
+  "items_in_24h": 655,
   "rss_opml": {
     "enabled": true,
     "path": "configured",
-    "feed_total": 10,
-    "effective_feed_total": 10,
-    "ok_feeds": 10,
-    "failed_feeds": [],
-    "zero_item_feeds": [],
+    "feed_total": 19,
+    "effective_feed_total": 19,
+    "ok_feeds": 16,
+    "failed_feeds": [
+      "https://ai.meta.com/blog/rss/",
+      "https://oecd.ai/en/rss",
+      "https://openai.com/news/research/rss.xml"
+    ],
+    "zero_item_feeds": [
+      "https://www.edsurge.com/news/topics/artificial-intelligence.rss"
+    ],
     "skipped_feeds": [],
     "replaced_feeds": [],
     "feeds": [
+      {
+        "site_id": "opmlrss:8399027fc4",
+        "site_name": "OPML RSS",
+        "feed_title": "Ars Technica AI",
+        "feed_url": "https://arstechnica.com/tag/ai/feed/",
+        "effective_feed_url": "https://arstechnica.com/tag/ai/feed/",
+        "ok": true,
+        "item_count": 20,
+        "duration_ms": 457,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:0bed6d0e4c",
+        "site_name": "OPML RSS",
+        "feed_title": "EdSurge AI",
+        "feed_url": "https://www.edsurge.com/news/topics/artificial-intelligence.rss",
+        "effective_feed_url": "https://www.edsurge.com/news/topics/artificial-intelligence.rss",
+        "ok": true,
+        "item_count": 0,
+        "duration_ms": 624,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
       {
         "site_id": "opmlrss:c39414c568",
         "site_name": "OPML RSS",
@@ -146,7 +180,7 @@
         "effective_feed_url": "https://blog.google/technology/ai/rss/",
         "ok": true,
         "item_count": 20,
-        "duration_ms": 376,
+        "duration_ms": 345,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -160,7 +194,7 @@
         "effective_feed_url": "https://deepmind.google/blog/rss.xml",
         "ok": true,
         "item_count": 100,
-        "duration_ms": 485,
+        "duration_ms": 609,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -174,7 +208,7 @@
         "effective_feed_url": "https://huggingface.co/blog/feed.xml",
         "ok": true,
         "item_count": 777,
-        "duration_ms": 431,
+        "duration_ms": 598,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -188,8 +222,50 @@
         "effective_feed_url": "https://www.infoq.cn/feed",
         "ok": true,
         "item_count": 20,
-        "duration_ms": 1806,
+        "duration_ms": 1521,
         "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:d8e939ff6c",
+        "site_name": "OPML RSS",
+        "feed_title": "Inside Higher Ed AI",
+        "feed_url": "https://www.insidehighered.com/rss.xml",
+        "effective_feed_url": "https://www.insidehighered.com/rss.xml",
+        "ok": true,
+        "item_count": 10,
+        "duration_ms": 109,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:e7313ed178",
+        "site_name": "OPML RSS",
+        "feed_title": "MIT Technology Review AI",
+        "feed_url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+        "effective_feed_url": "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+        "ok": true,
+        "item_count": 10,
+        "duration_ms": 55,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:d1cf50efa9",
+        "site_name": "OPML RSS",
+        "feed_title": "Meta AI Blog",
+        "feed_url": "https://ai.meta.com/blog/rss/",
+        "effective_feed_url": "https://ai.meta.com/blog/rss/",
+        "ok": false,
+        "item_count": 0,
+        "duration_ms": 1756,
+        "error": "400 Client Error: Bad Request for url: https://ai.meta.com/blog/rss/",
         "skipped": false,
         "skip_reason": null,
         "replaced": false
@@ -202,7 +278,7 @@
         "effective_feed_url": "https://blogs.microsoft.com/ai/feed/",
         "ok": true,
         "item_count": 10,
-        "duration_ms": 310,
+        "duration_ms": 258,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -216,8 +292,22 @@
         "effective_feed_url": "https://developer.nvidia.com/blog/category/generative-ai/feed/",
         "ok": true,
         "item_count": 100,
-        "duration_ms": 628,
+        "duration_ms": 1211,
         "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:d6b742981b",
+        "site_name": "OPML RSS",
+        "feed_title": "OECD AI Policy Observatory",
+        "feed_url": "https://oecd.ai/en/rss",
+        "effective_feed_url": "https://oecd.ai/en/rss",
+        "ok": false,
+        "item_count": 0,
+        "duration_ms": 623,
+        "error": "404 Client Error: Not Found for url: https://oecd.ai/en/rss",
         "skipped": false,
         "skip_reason": null,
         "replaced": false
@@ -229,9 +319,23 @@
         "feed_url": "https://openai.com/news/rss.xml",
         "effective_feed_url": "https://openai.com/news/rss.xml",
         "ok": true,
-        "item_count": 949,
-        "duration_ms": 999,
+        "item_count": 950,
+        "duration_ms": 1264,
         "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:6e005a5395",
+        "site_name": "OPML RSS",
+        "feed_title": "OpenAI Research",
+        "feed_url": "https://openai.com/news/research/rss.xml",
+        "effective_feed_url": "https://openai.com/news/research/rss.xml",
+        "ok": false,
+        "item_count": 0,
+        "duration_ms": 3321,
+        "error": "404 Client Error: Not Found for url: https://openai.com/news/research/rss.xml",
         "skipped": false,
         "skip_reason": null,
         "replaced": false
@@ -244,7 +348,21 @@
         "effective_feed_url": "https://simonwillison.net/atom/everything/",
         "ok": true,
         "item_count": 30,
-        "duration_ms": 164,
+        "duration_ms": 567,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:f98a834a72",
+        "site_name": "OPML RSS",
+        "feed_title": "The Verge AI",
+        "feed_url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "effective_feed_url": "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml",
+        "ok": true,
+        "item_count": 10,
+        "duration_ms": 402,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -258,7 +376,7 @@
         "effective_feed_url": "https://www.wired.com/feed/tag/ai/latest/rss",
         "ok": true,
         "item_count": 10,
-        "duration_ms": 273,
+        "duration_ms": 367,
         "error": null,
         "skipped": false,
         "skip_reason": null,
@@ -272,7 +390,21 @@
         "effective_feed_url": "https://baoyu.io/feed.xml",
         "ok": true,
         "item_count": 50,
-        "duration_ms": 441,
+        "duration_ms": 592,
+        "error": null,
+        "skipped": false,
+        "skip_reason": null,
+        "replaced": false
+      },
+      {
+        "site_id": "opmlrss:098de41df0",
+        "site_name": "OPML RSS",
+        "feed_title": "少数派 AI",
+        "feed_url": "https://sspai.com/feed?tag=AI",
+        "effective_feed_url": "https://sspai.com/feed?tag=AI",
+        "ok": true,
+        "item_count": 10,
+        "duration_ms": 1468,
         "error": null,
         "skipped": false,
         "skip_reason": null,
