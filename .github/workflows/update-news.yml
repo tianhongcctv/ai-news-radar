@@ -47,6 +47,53 @@ jobs:
             echo "No OPML file available; RSS OPML is optional"
           fi
 
+          if [ -f feeds/follow.opml ]; then
+            python - <<'PY'
+from pathlib import Path
+bad_feeds = {
+    "https://ai.meta.com/blog/rss/",
+    "https://oecd.ai/en/rss",
+    "https://openai.com/news/research/rss.xml",
+}
+path = Path("feeds/follow.opml")
+text = path.read_text(encoding="utf-8")
+for feed in bad_feeds:
+    lines = text.splitlines()
+    cleaned = []
+    block = []
+    in_outline = False
+    drop = False
+    for line in lines:
+        stripped = line.strip()
+        if stripped.startswith("<outline") and "xmlUrl=" in stripped:
+            in_outline = True
+            block = [line]
+            drop = feed in line
+            if stripped.endswith("/>"):
+                if not drop:
+                    cleaned.extend(block)
+                in_outline = False
+                block = []
+                drop = False
+            continue
+        if in_outline:
+            block.append(line)
+            if feed in line:
+                drop = True
+            if stripped.endswith("/>"):
+                if not drop:
+                    cleaned.extend(block)
+                in_outline = False
+                block = []
+                drop = False
+            continue
+        cleaned.append(line)
+    text = "\n".join(cleaned) + "\n"
+path.write_text(text, encoding="utf-8")
+print("Removed known bad OPML feeds if present")
+PY
+          fi
+
       - name: Update data
         env:
           EMAIL_DIGEST_ENABLED: ${{ secrets.EMAIL_DIGEST_ENABLED || vars.EMAIL_DIGEST_ENABLED }}
@@ -62,12 +109,13 @@ jobs:
           X_API_DAILY_POST_LIMIT: ${{ vars.X_API_DAILY_POST_LIMIT }}
           X_API_RUN_UTC_HOUR: ${{ vars.X_API_RUN_UTC_HOUR }}
           X_API_RUN_UTC_MINUTE_MAX: ${{ vars.X_API_RUN_UTC_MINUTE_MAX }}
-          RSS_MAX_FEEDS: ${{ vars.RSS_MAX_FEEDS || 10 }}
+          RSS_MAX_FEEDS: ${{ vars.RSS_MAX_FEEDS || 16 }}
+          WINDOW_HOURS: ${{ vars.WINDOW_HOURS || 12 }}
         run: |
           if [ -f feeds/follow.opml ]; then
-            python scripts/update_news.py --output-dir data --window-hours 24 --archive-days 21 --rss-opml feeds/follow.opml --rss-max-feeds "${RSS_MAX_FEEDS:-10}"
+            python scripts/update_news.py --output-dir data --window-hours "${WINDOW_HOURS:-12}" --archive-days 21 --rss-opml feeds/follow.opml --rss-max-feeds "${RSS_MAX_FEEDS:-16}"
           else
-            python scripts/update_news.py --output-dir data --window-hours 24 --archive-days 21
+            python scripts/update_news.py --output-dir data --window-hours "${WINDOW_HOURS:-12}" --archive-days 21
           fi
 
       - name: Commit and push changes
