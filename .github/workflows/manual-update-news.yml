@@ -67,13 +67,16 @@ jobs:
         run: |
           RSS_MAX_FEEDS="${{ vars.RSS_MAX_FEEDS }}"
           WINDOW_HOURS="${{ vars.WINDOW_HOURS }}"
+          DAILY_ITEM_LIMIT="${{ vars.DAILY_ITEM_LIMIT }}"
           RSS_MAX_FEEDS="${RSS_MAX_FEEDS:-16}"
           WINDOW_HOURS="${WINDOW_HOURS:-12}"
+          DAILY_ITEM_LIMIT="${DAILY_ITEM_LIMIT:-30}"
           if [ -f feeds/follow.opml ]; then
             python scripts/update_news.py --output-dir data --window-hours "$WINDOW_HOURS" --archive-days 21 --rss-opml feeds/follow.opml --rss-max-feeds "$RSS_MAX_FEEDS"
           else
             python scripts/update_news.py --output-dir data --window-hours "$WINDOW_HOURS" --archive-days 21
           fi
+          python scripts/prioritize_civilization_daily.py --data-dir data --limit "$DAILY_ITEM_LIMIT"
 
       - name: Commit and push changes
         env:
