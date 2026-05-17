@@ -3,7 +3,7 @@
 
 This script runs after scripts/update_news.py. It keeps the full raw/all-mode
 payloads for research, but limits the homepage AI list to the highest-signal
-civilization-observation items.
+civilization-observation items with basic source diversity.
 """
 
 from __future__ import annotations
@@ -105,7 +105,6 @@ def score_item(item: dict[str, Any]) -> tuple[int, float, str]:
     if any(src.lower() in source_text.lower() for src in HIGH_VALUE_SOURCES):
         score += 4
 
-    # Prefer items that have already survived AI filtering but avoid pure product-log noise.
     if str(item.get("site_id") or "") in {"official_ai", "opmlrss", "aibreakfast", "aihubtoday", "aibase", "aihot"}:
         score += 2
 
@@ -116,7 +115,7 @@ def score_item(item: dict[str, Any]) -> tuple[int, float, str]:
     return score, published.timestamp(), ",".join(matched[:8])
 
 
-def cap_and_rank(items: list[dict[str, Any]], limit: int) -> list[dict[str, Any]]:
+def enrich_and_sort(items: list[dict[str, Any]]) -> list[dict[str, Any]]:
     enriched: list[tuple[tuple[int, float, str], dict[str, Any]]] = []
     for item in items:
         score, timestamp, matched = score_item(item)
@@ -125,9 +124,34 @@ def cap_and_rank(items: list[dict[str, Any]], limit: int) -> list[dict[str, Any]
         if matched:
             out["civilization_keywords"] = matched
         enriched.append(((score, timestamp, str(out.get("id") or "")), out))
-
     enriched.sort(key=lambda pair: pair[0], reverse=True)
-    return [item for _, item in enriched[:limit]]
+    return [item for _, item in enriched]
+
+
+def cap_and_rank(items: list[dict[str, Any]], limit: int, per_site_limit: int) -> list[dict[str, Any]]:
+    sorted_items = enrich_and_sort(items)
+    selected: list[dict[str, Any]] = []
+    overflow: list[dict[str, Any]] = []
+    counts: dict[str, int] = {}
+
+    for item in sorted_items:
+        sid = str(item.get("site_id") or "unknown")
+        if counts.get(sid, 0) < per_site_limit:
+            selected.append(item)
+            counts[sid] = counts.get(sid, 0) + 1
+        else:
+            overflow.append(item)
+        if len(selected) >= limit:
+            return selected
+
+    # If there are not enough distinct sources, fill remaining slots by score.
+    for item in overflow:
+        if len(selected) >= limit:
+            break
+        item["source_balance_overflow"] = True
+        selected.append(item)
+
+    return selected[:limit]
 
 
 def recompute_site_stats(items: list[dict[str, Any]], previous_stats: list[dict[str, Any]] | None = None) -> list[dict[str, Any]]:
@@ -147,6 +171,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Cap and prioritize AI civilization daily items")
     parser.add_argument("--data-dir", default="data")
     parser.add_argument("--limit", type=int, default=30)
+    parser.add_argument("--per-site-limit", type=int, default=5)
     args = parser.parse_args()
 
     data_dir = Path(args.data_dir)
@@ -166,14 +191,17 @@ def main() -> int:
     if not isinstance(source_items, list):
         source_items = []
 
-    ranked_items = cap_and_rank(source_items, max(1, int(args.limit)))
+    limit = max(1, int(args.limit))
+    per_site_limit = max(1, int(args.per_site_limit))
+    ranked_items = cap_and_rank(source_items, limit, per_site_limit)
 
     previous_total = latest.get("total_items")
     previous_ai_raw = latest.get("total_items_ai_raw")
     previous_stats = latest.get("site_stats") if isinstance(latest.get("site_stats"), list) else []
 
-    latest["daily_item_limit"] = int(args.limit)
-    latest["selection_policy"] = "civilization_structure_keywords_first"
+    latest["daily_item_limit"] = limit
+    latest["per_site_item_limit"] = per_site_limit
+    latest["selection_policy"] = "civilization_structure_keywords_first_with_source_balance"
     latest["total_items_before_daily_cap"] = previous_total
     latest["total_items"] = len(ranked_items)
     latest["items"] = ranked_items
@@ -184,14 +212,14 @@ def main() -> int:
     if previous_ai_raw is not None:
         latest["total_items_ai_raw"] = previous_ai_raw
 
-    # Keep all-mode data intact, but add metadata so researchers know the homepage is capped.
     if all_payload:
-        all_payload["daily_item_limit"] = int(args.limit)
-        all_payload["selection_policy"] = "homepage_items_capped_after_civilization_priority_ranking"
+        all_payload["daily_item_limit"] = limit
+        all_payload["per_site_item_limit"] = per_site_limit
+        all_payload["selection_policy"] = "homepage_items_capped_after_civilization_priority_ranking_with_source_balance"
         latest_all_path.write_text(json.dumps(all_payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
     latest_path.write_text(json.dumps(latest, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Prioritized homepage items: {len(source_items)} -> {len(ranked_items)}")
+    print(f"Prioritized homepage items: {len(source_items)} -> {len(ranked_items)}; per-site limit={per_site_limit}")
     return 0
 
 
