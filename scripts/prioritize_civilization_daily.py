@@ -10,7 +10,6 @@ from __future__ import annotations
 
 import argparse
 import json
-import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -43,7 +42,7 @@ PRIORITY_KEYWORDS: list[tuple[str, int]] = [
     ("责任", 6), ("政府", 6), ("国家", 5),
     ("policy", 7), ("regulation", 8), ("regulatory", 8), ("law", 8),
     ("legal", 8), ("court", 8), ("copyright", 8), ("privacy", 7),
-    ("governance", 7), ("ethics", 7), ("responsibility", 6), "government", 6,
+    ("governance", 7), ("ethics", 7), ("responsibility", 6), ("government", 6),
 
     # Society and relationships
     ("社会", 6), ("关系", 6), ("家庭", 5), ("陪伴", 7), ("情感", 7),
