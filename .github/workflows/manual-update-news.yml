@@ -64,6 +64,9 @@ jobs:
           X_API_DAILY_POST_LIMIT: ${{ vars.X_API_DAILY_POST_LIMIT }}
           X_API_RUN_UTC_HOUR: ${{ vars.X_API_RUN_UTC_HOUR }}
           X_API_RUN_UTC_MINUTE_MAX: ${{ vars.X_API_RUN_UTC_MINUTE_MAX }}
+          WEIBO_HOT_ENABLED: ${{ vars.WEIBO_HOT_ENABLED }}
+          WEIBO_HOT_JSON_URL: ${{ vars.WEIBO_HOT_JSON_URL }}
+          WEIBO_WATCHLIST_KEEP_DAYS: ${{ vars.WEIBO_WATCHLIST_KEEP_DAYS }}
         run: |
           RSS_MAX_FEEDS="${{ vars.RSS_MAX_FEEDS }}"
           WINDOW_HOURS="${{ vars.WINDOW_HOURS }}"
@@ -79,6 +82,7 @@ jobs:
             python scripts/update_news.py --output-dir data --window-hours "$WINDOW_HOURS" --archive-days 21
           fi
           python scripts/prioritize_civilization_daily.py --data-dir data --limit "$DAILY_ITEM_LIMIT" --per-site-limit "$PER_SITE_ITEM_LIMIT"
+          python scripts/update_weibo_hot.py --output-dir data || echo "Weibo radar failed but main pipeline continues"
 
       - name: Commit and push changes
         env:
@@ -87,6 +91,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/latest-24h.json data/latest-24h-all.json data/archive.json data/source-status.json data/waytoagi-7d.json data/title-zh-cache.json
+          if [ -f data/weibo-hot-status.json ]; then
+            git add data/weibo-hot-status.json
+          fi
+          if [ -f data/weibo-watchlist.json ]; then
+            git add data/weibo-watchlist.json
+          fi
           if [ -f data/email-digest.json ] && [ "$EMAIL_DIGEST_PUBLISH" = "1" ]; then
             git add data/email-digest.json
           fi
